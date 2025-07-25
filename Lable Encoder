@@ -1,0 +1,19 @@
+import pandas as pd
+from sklearn.preprocessing import LabelEncoder
+import joblib
+
+# Your list of products
+products = ["turmeric powder", "sugar", "jaggery", "rice", "millets", "oats", "wheat flour", "maida", "ragi flour",
+            "idiyappam flour", "rice flour", "rava", "tamarind", "red chilli", "toor dal", "moong daal", "chana daal",
+            "rajma", "crystal salt", "powder salt", "red chilli powder", "dhania powder", "pepper powder",
+            "cumin powder", "garam masala powder", "chat masala powder", "biryani masala powder", "sambar powder",
+            "rasam powder", "idli powder", "coffee powder", "tea powder", "cooking oil", "coconut oil",
+            "gingely oil", "ghee", "butter", "deepam oil"]
+
+# Fit LabelEncoder
+le = LabelEncoder()
+le.fit(products)
+
+# Save to file
+joblib.dump(le, 'label_encoder.pkl')
+print("✅ label_encoder.pkl saved!")
