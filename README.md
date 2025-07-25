@@ -58,7 +58,7 @@ project-folder/
 
 1. Clone the Repo
 
-git clone https://github.com/yourusername/kirana-dynamic-pricing.git
+git clone https://github.com/Premnivash2003/Small-Market-price-prediction.git
 cd kirana-dynamic-pricing
 
 2. Install Dependencies
