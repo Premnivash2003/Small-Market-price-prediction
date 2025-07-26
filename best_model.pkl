@@ -1,48 +1,32 @@
 import pandas as pd
-import numpy as np
 from sklearn.ensemble import RandomForestRegressor
 from sklearn.preprocessing import LabelEncoder
 from sklearn.model_selection import train_test_split
 import joblib
 
-# ✅ Load the sales dataset
+# Load and prepare data
 df = pd.read_csv("dummy_sales_data.csv")
-
-# ✅ Convert date to datetime
 df["date"] = pd.to_datetime(df["date"])
-
-# ✅ Feature engineering
-df["day_of_week"] = df["date"].dt.dayofweek      # Monday = 0
+df["day_of_week"] = df["date"].dt.dayofweek
 df["is_weekend"] = df["day_of_week"].isin([5, 6]).astype(int)
 df["month"] = df["date"].dt.month
 
-# ✅ Label encoding for products
 label_encoder = LabelEncoder()
 df["product_encoded"] = label_encoder.fit_transform(df["product"])
-joblib.dump(label_encoder, "label_encoder.pkl")  # Save encoder
-
-# ✅ Average quantity by product as a feature
 df["avg_quantity_by_product"] = df.groupby("product_encoded")["quantity_sold"].transform("mean")
 
-# ✅ Define features and target
 X = df[[
-    "quantity_sold",
-    "day_of_week",
-    "is_weekend",
-    "month",
-    "product_encoded",
-    "avg_quantity_by_product"
+    "quantity_sold", "day_of_week", "is_weekend", "month",
+    "product_encoded", "avg_quantity_by_product"
 ]]
 y = df["total_revenue"]
 
-# ✅ Train-test split
 X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
 
-# ✅ Train the model
 model = RandomForestRegressor(n_estimators=100, random_state=42)
 model.fit(X_train, y_train)
 
-# ✅ Save the model
+# Save clean model and encoder
 joblib.dump(model, "best_model.pkl")
-
-print("✅ Model training complete and saved as 'best_model.pkl'")
+joblib.dump(label_encoder, "label_encoder.pkl")
+print("✅ Clean model and encoder saved.")
